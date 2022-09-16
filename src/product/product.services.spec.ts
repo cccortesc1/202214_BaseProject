@@ -68,7 +68,7 @@ describe('ProductService', () => {
       id: '',
       name: faker.company.name(),
       price: faker.datatype.number().toString(),
-      type: 'No Perecedero',
+      type: 'Perecedero',
       stores: [],
     };
 
@@ -82,6 +82,21 @@ describe('ProductService', () => {
     expect(storedProduct.name).toEqual(newProduct.name);
     expect(storedProduct.price).toEqual(newProduct.price);
     expect(storedProduct.type).toEqual(newProduct.type);
+  });
+
+  it('create should throw exception to a invalid product type', async () => {
+    const product: ProductEntity = {
+      id: '',
+      name: faker.company.name(),
+      price: faker.datatype.number().toString(),
+      type: faker.animal.fish(),
+      stores: [],
+    };
+
+    await expect(() => service.create(product)).rejects.toHaveProperty(
+      'message',
+      'the product type given was not correct',
+    );
   });
 
   it('update should modify a product', async () => {
@@ -116,6 +131,23 @@ describe('ProductService', () => {
     await expect(() => service.update('0', product)).rejects.toHaveProperty(
       'message',
       'the product with the given id was not found',
+    );
+  });
+
+  it('update should throw an exception for an invalid product type', async () => {
+    let product: ProductEntity = productList[0];
+    product = {
+      ...product,
+      name: 'New name',
+      price: 'New address',
+      type: '',
+    };
+
+    await expect(() =>
+      service.update(`${product.id}`, product),
+    ).rejects.toHaveProperty(
+      'message',
+      'the product type given was not correct',
     );
   });
 

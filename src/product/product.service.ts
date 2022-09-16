@@ -15,7 +15,13 @@ export class ProductService {
   ) {}
 
   async create(product: ProductEntity): Promise<ProductEntity> {
-    return await this.productRepository.save(product);
+    if (product.type === 'Perecedero' || product.type === 'No perecedero')
+      return await this.productRepository.save(product);
+    else
+      throw new BusinessLogicException(
+        'the product type given was not correct',
+        BusinessError.PRECONDITION_FAILED,
+      );
   }
 
   async findAll(): Promise<ProductEntity[]> {
@@ -48,11 +54,16 @@ export class ProductService {
         'the product with the given id was not found',
         BusinessError.NOT_FOUND,
       );
-
-    return await this.productRepository.save({
-      ...persistedProduct,
-      ...product,
-    });
+    if (product.type === 'Perecedero' || product.type === 'No perecedero')
+      return await this.productRepository.save({
+        ...persistedProduct,
+        ...product,
+      });
+    else
+      throw new BusinessLogicException(
+        'the product type given was not correct',
+        BusinessError.PRECONDITION_FAILED,
+      );
   }
 
   async delete(id: string) {

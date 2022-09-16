@@ -1,3 +1,4 @@
+import { ProductStoreModule } from './product-store/product-store.module';
 import { StoreModule } from './store/store.module';
 import { ProductModule } from './product/product.module';
 import { Module } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { StoreEntity } from './store/store.entity';
 
 @Module({
   imports: [
+    ProductStoreModule,
     StoreModule,
     ProductModule,
     TypeOrmModule.forRoot({

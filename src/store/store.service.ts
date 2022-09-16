@@ -35,7 +35,12 @@ export class StoreService {
   }
 
   async create(store: StoreEntity): Promise<StoreEntity> {
-    return await this.storeRepository.save(store);
+    if (store.city.length === 3) return await this.storeRepository.save(store);
+    else
+      throw new BusinessLogicException(
+        'the store city given was not correct',
+        BusinessError.PRECONDITION_FAILED,
+      );
   }
 
   async update(id: string, store: StoreEntity): Promise<StoreEntity> {
@@ -49,10 +54,16 @@ export class StoreService {
         BusinessError.NOT_FOUND,
       );
 
-    return await this.storeRepository.save({
-      ...persistedStore,
-      ...store,
-    });
+    if (store.city.length === 3)
+      return await this.storeRepository.save({
+        ...persistedStore,
+        ...store,
+      });
+    else
+      throw new BusinessLogicException(
+        'the store city given was not correct',
+        BusinessError.PRECONDITION_FAILED,
+      );
   }
 
   async delete(id: string) {

@@ -68,7 +68,7 @@ describe('StoreService', () => {
       id: '',
       name: faker.company.name(),
       address: faker.address.secondaryAddress(),
-      city: faker.address.city(),
+      city: 'MED',
       products: [],
     };
 
@@ -82,6 +82,21 @@ describe('StoreService', () => {
     expect(storedMuseum.name).toEqual(newStore.name);
     expect(storedMuseum.address).toEqual(newStore.address);
     expect(storedMuseum.city).toEqual(newStore.city);
+  });
+
+  it('create should throw an exception for an invalid store city', async () => {
+    const store: StoreEntity = {
+      id: '',
+      name: faker.company.name(),
+      address: faker.address.secondaryAddress(),
+      city: faker.address.city(),
+      products: [],
+    };
+
+    await expect(() => service.create(store)).rejects.toHaveProperty(
+      'message',
+      'the store city given was not correct',
+    );
   });
 
   it('update should modify a store', async () => {
@@ -109,12 +124,25 @@ describe('StoreService', () => {
       ...store,
       name: 'New name',
       address: 'New address',
-      city: '',
+      city: 'BOG',
     };
     await expect(() => service.update('0', store)).rejects.toHaveProperty(
       'message',
       'the store with the given id was not found',
     );
+  });
+
+  it('update should throw an exception for an invalid store city', async () => {
+    let store: StoreEntity = storeList[0];
+    store = {
+      ...store,
+      name: 'New name',
+      address: 'New address',
+      city: 'BOGOTA',
+    };
+    await expect(() =>
+      service.update(`${store.id}`, store),
+    ).rejects.toHaveProperty('message', 'the store city given was not correct');
   });
 
   it('delete should remove a store', async () => {
