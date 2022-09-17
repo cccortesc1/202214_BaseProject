@@ -101,7 +101,7 @@ export class ProductStoreService {
     return await this.productRepository.save(product);
   }
 
-  async deleteStoresFromProduct(productId: string, storeId: string) {
+  async deleteStoreFromProduct(productId: string, storeId: string) {
     const storeToDelete: StoreEntity = await this.getStoreByStoreId(storeId);
 
     const product: ProductEntity = await this.getProductByProductId(productId);

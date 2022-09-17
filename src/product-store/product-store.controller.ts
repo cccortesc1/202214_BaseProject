@@ -60,11 +60,11 @@ export class ProductStoreController {
 
   @Delete(':productId/stores/:storeId')
   @HttpCode(204)
-  async deleteStoresFromProduct(
+  async deleteStoreFromProduct(
     @Param('productId') productId: string,
     @Param('storeId') storeId: string,
   ) {
-    return await this.productStoreService.deleteStoresFromProduct(
+    return await this.productStoreService.deleteStoreFromProduct(
       productId,
       storeId,
     );
