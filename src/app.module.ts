@@ -19,7 +19,7 @@ import { StoreEntity } from './store/store.entity';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'stores',
+      database: 'products',
       entities: [ProductEntity, StoreEntity],
       dropSchema: true,
       synchronize: true,

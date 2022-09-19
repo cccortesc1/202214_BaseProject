@@ -6,7 +6,7 @@ export class ProductDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly preice: string;
+  readonly price: string;
 
   @IsString()
   @IsNotEmpty()
